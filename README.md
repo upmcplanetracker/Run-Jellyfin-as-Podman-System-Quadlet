@@ -1,7 +1,7 @@
 Jellyfin Podman Quadlet Deployment
 ==================================
 
-**Disclaimer:** I am not affiliated with, associated, authorized, endorsed by, or in any way officially connected with the Jellyfin project.
+**Disclaimer:** I am not affiliated with, associated, authorized, endorsed by, or in any way officially connected with the Jellyfin project. This should be a drop-in replacement, but back up any config files just in case.
 
 This guide demonstrates how to turn a Jellyfin Docker container into a **System Podman Quadlet**. Unlike standard containers, a system quadlet is managed by `systemd` and will start automatically every time your Ubuntu system boots.  I have not been successful getting this to run rootless and still have access to the QSV/GPU.  If you are running this without a GPU you can probably convert this to rootless with little effort.
 
