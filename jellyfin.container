@@ -1,0 +1,41 @@
+[Unit]
+Description=Jellyfin Media Server
+After=network-online.target
+
+[Container]
+ContainerName=jellyfin
+Image=docker.io/jellyfin/jellyfin:latest
+AutoUpdate=registry
+Network=host
+
+# Logging constraints, adjust as needed
+LogDriver=k8s-file
+PodmanArgs=--log-opt=max-size=10m --log-opt=max-file=3
+
+# USER CONFIGURATION: Replace 1000 with your actual UID/GID
+User=1000
+Group=1000
+
+# HARDWARE ACCELERATION: Comment out the line below if not using Intel QSV. If you are using NVIDIA you will need to figure out how to edit this for your setup
+AddDevice=intel.com/gpu=qsv
+
+# STORAGE CONFIGURATION: Replace /home/user/ with your actual paths
+Volume=/home/user/jellyfin/config:/config:Z
+Volume=/home/user/jellyfin/cache:/cache:Z
+Mount=type=tmpfs,destination=/transcode
+
+# MEDIA PATHS: Map your host folders to container paths
+Volume=/home/user/Videos/movies:/media/movies
+Volume=/home/user/Videos/tvshows:/media/tvshows
+# Add more volumes as needed
+
+# ENVIRONMENT: edit for your timezone
+Environment=TZ=America/New_York
+
+[Service]
+Restart=unless-stopped
+TimeoutStartSec=900
+
+[Install]
+# This ensures the container starts on system boot
+WantedBy=multi-user.target default.target
